@@ -6,49 +6,72 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <!-- item_university.xml -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-            android:id="@+id/textViewUniversityName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_gravity="center"
-            android:text="Name"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/imageViewUniversity"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/universities_image"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/app_name"/>
 
-        <TextView
-            android:id="@+id/textViewCountry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="4dp"
-            android:text="Country"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textViewWebPages"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Website:"
-            android:layout_gravity="center"
-            android:textSize="16sp" />
-
-        <View
+        <!-- item_university.xml -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="4dp"
-            android:background="@color/black"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textViewUniversityName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_gravity="center"
+                android:text="Name"
+                android:maxLines="2"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewCountry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="4dp"
+                android:text="Country"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewWebPages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Website:"
+                android:layout_gravity="center"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/grey"/>
+        </LinearLayout>
+
     </LinearLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
