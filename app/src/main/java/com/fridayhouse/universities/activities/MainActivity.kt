@@ -1,10 +1,12 @@
-package com.fridayhouse.universities
+package com.fridayhouse.universities.activities
 
-import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
+import com.fridayhouse.universities.R
+import com.fridayhouse.universities.adapters.UniversityAdapter
 import com.fridayhouse.universities.api.ApiInterface
 import com.fridayhouse.universities.api.ApiUtilities
 import com.fridayhouse.universities.repository.UniversityRepository
@@ -14,6 +16,7 @@ import com.fridayhouse.universities.viewModel.UniversityViewModelFactory
 class MainActivity : AppCompatActivity() {
 
     private lateinit var universityViewModel: UniversityViewModel
+    private lateinit var adapter: UniversityAdapter // Create an adapter for your RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,6 +27,23 @@ class MainActivity : AppCompatActivity() {
 
         universityViewModel = ViewModelProvider(this, UniversityViewModelFactory(universityRepository)).get(UniversityViewModel::class.java)
 
+        // Initialize RecyclerView and its adapter
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        adapter = UniversityAdapter() // Create your custom adapter
+        recyclerView.adapter = adapter
+
+        // Observe LiveData from ViewModel
+        universityViewModel.university.observe(this, { universities ->
+            Log.d("UniversityActivity", "LiveData changed: $universities")
+            // Update your RecyclerView adapter with the list of universities
+            if (universities != null) {
+                adapter.submitList(universities)
+                Log.d("UniversityActivity", "Updating RecyclerView with ${universities.size} universities")
+            }
+        })
+        // Trigger the data fetch operation
+        Log.d("UniversityActivity", "Fetching universities data")
+
         universityViewModel.university.observe(this) {
             it.iterator().forEach { universityItem ->
                 Log.d(
@@ -33,5 +53,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
+
     }
 }
