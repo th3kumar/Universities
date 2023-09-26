@@ -1,5 +1,7 @@
 package com.fridayhouse.universities.adapters
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +10,14 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.fridayhouse.universities.R
+import com.fridayhouse.universities.activities.WebViewActivity
 import com.fridayhouse.universities.model.University
 import com.fridayhouse.universities.model.UniversityItem
 
 class UniversityAdapter: RecyclerView.Adapter<UniversityAdapter.UniversityViewHolder>(){
+
+    // Add a member variable to store the context
+    var context: Context? = null
 
     inner class UniversityViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         //val tvWebsite = itemView.findViewById<TextView>(R.id.textViewWebPages)
@@ -60,9 +66,12 @@ class UniversityAdapter: RecyclerView.Adapter<UniversityAdapter.UniversityViewHo
         holder.tvCountry.text = schoolsResponseItem.country
         holder.tvDomain.text = schoolsResponseItem.domains.toString()
 
-        holder.itemView.apply {
-            setOnClickListener {
-                onItemClickListener?.let { it(schoolsResponseItem) }
+        holder.itemView.setOnClickListener {
+            // Start the WebViewActivity when a university item is clicked
+            context?.let { context ->
+                val intent = Intent(context, WebViewActivity::class.java)
+                intent.putExtra("domain", schoolsResponseItem.domains.firstOrNull())
+                context.startActivity(intent)
             }
         }
     }

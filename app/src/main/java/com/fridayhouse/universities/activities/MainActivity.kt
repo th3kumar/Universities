@@ -30,7 +30,9 @@ class MainActivity : AppCompatActivity() {
         // Initialize RecyclerView and its adapter
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         adapter = UniversityAdapter() // Create your custom adapter
+        adapter.context = this // Set the context for the adapter
         recyclerView.adapter = adapter
+
 
         // Observe LiveData from ViewModel
         universityViewModel.university.observe(this, { universities ->
@@ -44,15 +46,15 @@ class MainActivity : AppCompatActivity() {
         // Trigger the data fetch operation
         Log.d("UniversityActivity", "Fetching universities data")
 
-        universityViewModel.university.observe(this) {
-            it.iterator().forEach { universityItem ->
-                Log.d(
-                    "incommingData",
-                    "name: ${universityItem.name}\n domain: ${universityItem.domains}\n webpage: ${universityItem.web_pages}\n country: ${universityItem.country}\n"
-                )
-            }
-
-        }
+//        universityViewModel.university.observe(this) {
+//            it.iterator().forEach { universityItem ->
+//                Log.d(
+//                    "incommingData",
+//                    "name: ${universityItem.name}\n domain: ${universityItem.domains}\n webpage: ${universityItem.web_pages}\n country: ${universityItem.country}\n"
+//                )
+//            }
+//
+//        }
 
 
     }
