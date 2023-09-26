@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface ApiInterface {
 
-    @GET("search")
+    @GET("search?country=India")
     suspend fun getUniversities() : Response<University>
 }

@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
+            android:layout_gravity="center"
             android:text="Name"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -29,6 +30,7 @@
             android:id="@+id/textViewCountry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginBottom="4dp"
             android:text="Country"
             android:textSize="16sp" />
@@ -38,7 +40,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Website:"
+            android:layout_gravity="center"
             android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/black"/>
     </LinearLayout>
 
 

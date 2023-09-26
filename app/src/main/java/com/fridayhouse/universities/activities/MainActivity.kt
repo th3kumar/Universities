@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("UniversityActivity", "LiveData changed: $universities")
             // Update your RecyclerView adapter with the list of universities
             if (universities != null) {
-                adapter.submitList(universities)
+                adapter.differ.submitList(universities)
                 Log.d("UniversityActivity", "Updating RecyclerView with ${universities.size} universities")
             }
         })
