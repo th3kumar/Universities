@@ -7,7 +7,7 @@ import com.fridayhouse.universities.model.University
 
 class UniversityRepository(private val apiInterface: ApiInterface) {
 
-    private val universityLiveData = MutableLiveData<University>()
+    val universityLiveData = MutableLiveData<University>()
 
     val university : LiveData<University>
         get() = universityLiveData
