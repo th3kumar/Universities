@@ -33,6 +33,7 @@ class UniversityRefreshService : Service() {
         apiInterface = AppData.apiInterface
         universityRepository = AppData.universityRepository
 
+        // Start the service in the foreground
         startForegroundService()
     }
 
