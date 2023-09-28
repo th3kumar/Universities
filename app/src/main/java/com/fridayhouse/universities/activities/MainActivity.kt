@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         adapter.context = this
         recyclerView.adapter = adapter
 
-
+        // Start the service
         val serviceIntent = Intent(this, UniversityRefreshService::class.java)
         startService(serviceIntent)
 
