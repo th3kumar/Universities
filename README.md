@@ -9,7 +9,7 @@ The University Data App is an Android application that fetches and displays a li
 Here is a video demonstration showcasing the UI components and foreground service in action:
 
 
-https://github.com/th3kumar/Universities/assets/72141924/0dbc6962-06a7-426d-a395-9d4a294d7d78
+https://github.com/th3kumar/Universities/assets/72141924/f0de3e35-a401-49d7-92f0-0fb309114e5c
 
 
 ## App Architecture & Project Structure
