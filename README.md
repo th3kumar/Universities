@@ -1,8 +1,8 @@
-# Your Android App Name
+# University Data App
 
 ## Overview
 
-Briefly describe your Android app and its purpose.
+The University Data App is an Android application that fetches and displays a list of universities from an API. It employs various technologies, including Retrofit for API requests, MVVM architecture for data management, a foreground service for periodic data refreshing, WorkManager for service monitoring, and Coroutines for background tasks.
 
 ## Technologies Used
 
@@ -11,53 +11,70 @@ Briefly describe your Android app and its purpose.
 - Retrofit (for API requests)
 - MVVM Architecture
 - Foreground Service
+- WorkManager
+- Coroutines
 
-## App Architecture Overview
+## App Architecture
 
-Your Android app follows a common MVVM (Model-View-ViewModel) architecture pattern with the addition of a foreground service for data refresh. Here's a high-level description of the key components and their interactions:
+### App Components
 
 1. **UI Layer (View):**
-   - Activities: The app likely consists of one or more activities (e.g., `MainActivity`) responsible for displaying the user interface.
-   - Layouts: XML layout files define the UI components and their arrangement on the screen.
-   - RecyclerView: A RecyclerView is used to display a list of universities fetched from the API.
+   - Activities: The app's user interface consists of one or more activities.
+   - Layouts: XML layout files define UI components' arrangement on the screen.
+   - RecyclerView: Displays a list of universities fetched from the API.
 
 2. **ViewModel Layer:**
-   - `UniversityViewModel`: This ViewModel class acts as an intermediary between the UI and the data. It retrieves data from the repository, processes it, and provides it to the UI components.
-   - LiveData: LiveData objects are used to hold and observe data changes in a lifecycle-aware manner.
+   - `UniversityViewModel`: Acts as an intermediary between the UI and data, handling data retrieval and processing.
+   - LiveData: Observes data changes in a lifecycle-aware manner.
 
 3. **Repository Layer:**
-   - `UniversityRepository`: The repository abstracts the data source (the API in this case) and provides clean APIs to access and fetch university data.
-   - API Interface: An interface (`ApiInterface`) defines the API endpoints for fetching university data. It uses Retrofit to make network requests.
+   - `UniversityRepository`: Abstracts the data source (API) and provides clean APIs for data access.
+   - API Interface: Defines API endpoints using Retrofit for network requests.
 
 4. **Service Layer:**
-   - `DataRefreshService`: This foreground service is responsible for periodically refreshing data from the API. It runs even when the app is in the background or closed. It uses a Handler and coroutines to schedule API requests at regular intervals.
+   - `DataRefreshService`: A foreground service for periodic data refreshing, running even when the app is in the background or closed. It schedules API requests using a Handler and Coroutines.
 
-5. **Networking Layer:**
-   - Retrofit: Retrofit is used to make HTTP requests to the API and handle responses.
+5. **WorkManager Layer:**
+   - `ServiceCheckerWorker`: A WorkManager worker for periodic checks, ensuring the `DataRefreshService` is always running.
 
-6. **Notification Manager:**
-   - Android's Notification Manager is used to create a foreground notification for the `DataRefreshService`. This notification informs the user that the service is running and helps keep the service in the foreground.
+6. **Networking Layer:**
+   - Retrofit: Handles HTTP requests to the API and manages responses.
 
-## Architecture Flow
+7. **Notification Manager:**
+   - Android's Notification Manager: Creates a foreground notification for `DataRefreshService`, informing users of its status and keeping it in the foreground.
 
-1. When the app is launched (`MainActivity`), it initializes the `UniversityViewModel`.
+### Architecture Flow
 
-2. The `UniversityViewModel` fetches university data from the `UniversityRepository`.
+1. **App Launch:**
+   - When the app is launched (`MainActivity`), it initializes the `UniversityViewModel`.
 
-3. The `UniversityRepository` uses Retrofit to make API requests to retrieve university data.
+2. **Data Fetching:**
+   - `UniversityViewModel` fetches university data from the `UniversityRepository`.
 
-4. Fetched data is observed by the UI (RecyclerView) through LiveData, and it is displayed to the user.
+3. **API Requests:**
+   - `UniversityRepository` uses Retrofit to make API requests to retrieve university data.
 
-5. Meanwhile, the `DataRefreshService` runs in the background, periodically making API requests to refresh data.
+4. **UI Presentation:**
+   - LiveData observes the fetched data, and the UI (RecyclerView) updates in real-time to display the universities.
 
-6. The `DataRefreshService` posts the updated data to the `UniversityViewModel`, which in turn updates the UI when new data is received.
+5. **Background Refresh:**
+   - Simultaneously, the `DataRefreshService` runs in the background, periodically making API requests to refresh data.
 
-This architecture ensures that the UI remains responsive, and data is periodically refreshed in the background, even when the app is not in the foreground.
+6. **Data Update:**
+   - The `DataRefreshService` posts updated data to `UniversityViewModel`, which updates the UI when new data is received.
+
+### WorkManager Flow
+
+1. **Periodic Checks:**
+   - `ServiceCheckerWorker`, a WorkManager worker, periodically checks if the `DataRefreshService` is running.
+
+2. **Service Restart:**
+   - If the service isn't running, `ServiceCheckerWorker` starts the `DataRefreshService`, ensuring it remains active even when the app is not in the foreground.
 
 ## Future Improvements
 
-- Implement a "Saved Universities" feature to allow users to bookmark universities of interest.
-- Add a "Search Universities" feature to enable users to search for specific universities based on criteria.
+- Implement a "Saved Universities" feature for users to bookmark universities.
+- Add a "Search Universities" feature for specific university searches.
 
-Feel free to contribute to this project and help enhance its functionality.
+Contributions to enhance this project are welcome.
 
