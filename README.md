@@ -4,6 +4,22 @@
 
 The University Data App is an Android application that fetches and displays a list of universities from an API. It employs various technologies, including Retrofit for API requests, MVVM architecture for data management, a foreground service for periodic data refreshing, WorkManager for service monitoring, and Coroutines for background tasks.
 
+## Demonstration
+
+Here is a video demonstration showcasing the UI components and foreground service in action:
+
+
+https://github.com/th3kumar/Universities/assets/72141924/0dbc6962-06a7-426d-a395-9d4a294d7d78
+
+
+## App Architecture & Project Structure
+
+Here is the project's package structure and a high-level view of the architecture, highlighting the key components and their interactions.
+
+
+![Untitled design (10)](https://github.com/th3kumar/Universities/assets/72141924/e0dba513-db60-4b83-9d94-b6b7687f9307)
+
+
 ## Technologies Used
 
 - Kotlin
