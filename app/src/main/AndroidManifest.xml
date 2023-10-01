@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+<!--    dataSync is a new permission in Android 12-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
 
     <application
@@ -21,6 +23,7 @@
         tools:targetApi="31">
         <service
             android:name=".services.UniversityRefreshService"
+            android:foregroundServiceType="dataSync"
             android:enabled="true"
             android:exported="false" />
         <activity
