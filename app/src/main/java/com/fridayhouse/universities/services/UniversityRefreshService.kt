@@ -3,7 +3,10 @@ package com.fridayhouse.universities.services
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
@@ -33,8 +36,17 @@ class UniversityRefreshService : Service() {
         apiInterface = AppData.apiInterface
         universityRepository = AppData.universityRepository
 
-        // Start the service in the foreground
-        startForegroundService()
+
+        if (!isConnectedToInternet(this)) {
+            showToast("Please check internet connectivity before starting the service")
+            return
+        } else {
+
+            // Start the service in the foreground
+            startForegroundService()
+            showToast("Service started")
+        }
+
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -93,6 +105,19 @@ class UniversityRefreshService : Service() {
             e.printStackTrace()
             showToast("An error occurred: ${e.message}")
         }
+    }
+
+    fun isConnectedToInternet(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        // Check for network availability
+        val network = connectivityManager.activeNetwork
+        if (network != null) {
+            val capabilities = connectivityManager.getNetworkCapabilities(network)
+            return capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+        }
+
+        return false
     }
 
     private fun showToast(message: String) {
