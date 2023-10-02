@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.fridayhouse.universities.R
 import com.fridayhouse.universities.activities.WebViewActivity
-import com.fridayhouse.universities.model.University
 import com.fridayhouse.universities.model.UniversityItem
 
 class UniversityAdapter: RecyclerView.Adapter<UniversityAdapter.UniversityViewHolder>(){
