@@ -70,8 +70,5 @@ dependencies {
     //work manager
     implementation 'androidx.work:work-runtime-ktx:2.9.0-beta01'
 
-    //room database
-    implementation 'androidx.room:room-runtime:2.5.2'
-    annotationProcessor 'androidx.room:room-compiler:2.5.2'
-    implementation 'androidx.room:room-ktx:2.5.2'
+
 }

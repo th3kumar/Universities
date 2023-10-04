@@ -43,10 +43,6 @@ class MainActivity : AppCompatActivity() {
         adapter.context = this
         recyclerView.adapter = adapter
 
-        // Start the service
-        val serviceIntent = Intent(this, UniversityRefreshService::class.java)
-        startService(serviceIntent) // Start the service only when the app is opened
-
         // Observe LiveData from ViewModel for loading state
         universityViewModel.isLoading.observe(this) { isLoading ->
             if (isLoading) {

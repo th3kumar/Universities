@@ -39,11 +39,9 @@ class UniversityRefreshService : Service() {
         universityRepository = AppData.universityRepository
 
         if (isConnectedToInternet(this)) {
-            // Create the notification
-            val notification = createNotificationChannel()
 
-            // Start the service in the foreground immediately after starting it
-            startForeground(notificationId, notification)
+            val notification = createNotificationChannel()// Create the notification
+            startForeground(notificationId, notification)// Start the service in the foreground immediately after starting it
 
             // Start a coroutine to periodically fetch data
             GlobalScope.launch(Dispatchers.IO) {
@@ -52,8 +50,7 @@ class UniversityRefreshService : Service() {
                     delay(10000) // 10 seconds delay
                 }
             }
-            // Display a toast message indicating that the service has started
-            showToast("Service started")
+            showToast("Service started") // Display a toast message indicating that the service has started
             } else {
             showToast("Please check internet connectivity before starting the service")
              }
@@ -61,9 +58,9 @@ class UniversityRefreshService : Service() {
         return START_STICKY
     }
 
-    //only need for bound services
-    //bound services are services where other components can communicate with it by binding to it
     override fun onBind(intent: Intent?): IBinder? {
+        //only need for bound services
+        //bound services are services where other components can communicate with it by binding to it
         return null
     }
 

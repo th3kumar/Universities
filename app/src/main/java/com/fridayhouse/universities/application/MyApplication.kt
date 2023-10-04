@@ -26,6 +26,8 @@ class MyApplication : Application() {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
+        //This work executes multiple times until it is cancelled,
+        // with the first execution happening immediately or as soon as the given Constraints are met.
         val serviceCheckerWorkRequest = PeriodicWorkRequest.Builder(
             ServiceCheckerWorker::class.java,
             15, TimeUnit.MINUTES
@@ -37,7 +39,7 @@ class MyApplication : Application() {
         val workManager = WorkManager.getInstance(this)
         workManager.enqueueUniquePeriodicWork(
             "ServiceCheckerWorker",
-            ExistingPeriodicWorkPolicy.KEEP, // ExistingWorkPolicy
+            ExistingPeriodicWorkPolicy.REPLACE, // ExistingWorkPolicy
             serviceCheckerWorkRequest
         )
     }
