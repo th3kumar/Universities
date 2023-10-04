@@ -2,6 +2,7 @@ package com.fridayhouse.universities.application
 
 import android.app.Application
 import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
@@ -34,6 +35,10 @@ class MyApplication : Application() {
 
         // Enqueue the work request
         val workManager = WorkManager.getInstance(this)
-        workManager.enqueue(serviceCheckerWorkRequest)
+        workManager.enqueueUniquePeriodicWork(
+            "ServiceCheckerWorker",
+            ExistingPeriodicWorkPolicy.KEEP, // ExistingWorkPolicy
+            serviceCheckerWorkRequest
+        )
     }
 }

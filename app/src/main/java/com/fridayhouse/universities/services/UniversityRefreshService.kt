@@ -31,12 +31,12 @@ class UniversityRefreshService : Service() {
     private lateinit var apiInterface: ApiInterface // Declare apiInterface
     private lateinit var universityRepository: UniversityRepository // Declare universityRepository
 
-    override fun onCreate() {
-        super.onCreate()
+    //only need for started services
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
 
         apiInterface = AppData.apiInterface
         universityRepository = AppData.universityRepository
-
 
         if (isConnectedToInternet(this)) {
             // Create the notification
@@ -52,13 +52,13 @@ class UniversityRefreshService : Service() {
                     delay(10000) // 10 seconds delay
                 }
             }
-
             // Display a toast message indicating that the service has started
             showToast("Service started")
-        } else {
+            } else {
             showToast("Please check internet connectivity before starting the service")
-        }
+             }
 
+        return START_STICKY
     }
 
     //only need for bound services

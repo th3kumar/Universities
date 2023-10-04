@@ -13,13 +13,16 @@ class ServiceCheckerWorker(context: Context, params: WorkerParameters) : Worker(
 
         override fun doWork(): Result {
             try {
+                // Introduce a delay before checking the service status (e.g., 5 seconds)
+                Thread.sleep(5000)
+                // Check if the service is running
                 val isServiceRunning = isForegroundServiceRunning(applicationContext)
 
                 if (!isServiceRunning) {
                     startForegroundService()
                 }
 
-                return Result.success()
+                return Result.success() // after returning success, the worker will be rescheduled
             } catch (e: Exception) {
                 // Handle the exception, log it, or show an error message.
                 Log.e("ServiceCheckerClass", "Error in doWork(): ${e.message}", e)
@@ -29,12 +32,14 @@ class ServiceCheckerWorker(context: Context, params: WorkerParameters) : Worker(
     }
 
     private fun isForegroundServiceRunning(context: Context): Boolean {
-        val serviceClassName = "UniversityRefreshService" // Replace with your service class name
+        val serviceClassName = "com.fridayhouse.universities.services.UniversityRefreshService"
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
+        //deprecated in API 26,it will still return the caller's own services.
         val runningServices = activityManager.getRunningServices(Integer.MAX_VALUE)
 
         for (serviceInfo in runningServices) {
+            Log.d("ServiceChecker", "Running Service: ${serviceInfo.service.className}")
             if (serviceClassName == serviceInfo.service.className) {
                 return true
             }
