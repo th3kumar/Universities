@@ -1,11 +1,10 @@
 package com.fridayhouse.universities.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -46,8 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         // Start the service
         val serviceIntent = Intent(this, UniversityRefreshService::class.java)
-        startService(serviceIntent)
-
+        startService(serviceIntent) // Start the service only when the app is opened
 
         // Observe LiveData from ViewModel for loading state
         universityViewModel.isLoading.observe(this) { isLoading ->

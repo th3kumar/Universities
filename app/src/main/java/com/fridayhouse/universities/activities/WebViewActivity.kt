@@ -6,16 +6,12 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.airbnb.lottie.LottieAnimationView
 import com.fridayhouse.universities.R
 
 class WebViewActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
-    private lateinit var lottieAnimationView: LottieAnimationView
-    private lateinit var textViewGoBack: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +19,8 @@ class WebViewActivity : AppCompatActivity() {
 
         val domain = intent.getStringExtra("domain")
 
-        webView = findViewById<WebView>(R.id.webView)
-        lottieAnimationView = findViewById(R.id.lottieAnimationView)
-        textViewGoBack = findViewById(R.id.textViewGoBack)
+        webView = findViewById(R.id.webView)
+
 
         Log.d("WebViewActivity", "Domain received: $domain")  // Log the received domain
 

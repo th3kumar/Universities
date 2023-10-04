@@ -1,5 +1,6 @@
 package com.fridayhouse.universities.services
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -37,43 +38,36 @@ class UniversityRefreshService : Service() {
         universityRepository = AppData.universityRepository
 
 
-        if (!isConnectedToInternet(this)) {
-            showToast("Please check internet connectivity before starting the service")
-            return
-        } else {
+        if (isConnectedToInternet(this)) {
+            // Create the notification
+            val notification = createNotificationChannel()
 
-            // Start the service in the foreground
-            startForegroundService()
+            // Start the service in the foreground immediately after starting it
+            startForeground(notificationId, notification)
+
+            // Start a coroutine to periodically fetch data
+            GlobalScope.launch(Dispatchers.IO) {
+                while (true) {
+                    refreshDataFromApi()
+                    delay(10000) // 10 seconds delay
+                }
+            }
+
+            // Display a toast message indicating that the service has started
             showToast("Service started")
+        } else {
+            showToast("Please check internet connectivity before starting the service")
         }
 
     }
 
+    //only need for bound services
+    //bound services are services where other components can communicate with it by binding to it
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
-    private fun startForegroundService() {
-        createNotificationChannel()
-
-        val notification = NotificationCompat.Builder(this, channelId)
-            .setContentTitle("University Data Refresh")
-            .setContentText("Refreshing data every 10 seconds")
-            .setSmallIcon(R.drawable.ic_notification)
-            .build()
-
-        startForeground(notificationId, notification)
-
-        // Start a coroutine to periodically fetch data
-        GlobalScope.launch(Dispatchers.IO) {
-            while (true) {
-                refreshDataFromApi()
-                delay(10000) // 10 seconds delay
-            }
-        }
-    }
-
-    private fun createNotificationChannel() {
+    private fun createNotificationChannel(): Notification {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
@@ -83,7 +77,14 @@ class UniversityRefreshService : Service() {
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
+
+        return NotificationCompat.Builder(this, channelId)
+            .setContentTitle("University Data Refresh")
+            .setContentText("Refreshing data every 10 seconds")
+            .setSmallIcon(R.drawable.ic_notification)
+            .build()
     }
+
 
     private suspend fun refreshDataFromApi() {
         try {
@@ -101,13 +102,13 @@ class UniversityRefreshService : Service() {
                 showToast("Unknown error occurred")
             }
         } catch (e: Exception) {
-            // Handle exceptions that may occur during the API request
+            // Handle exceptions that may occur during the API request mostly due to unavailability of internet connection
             e.printStackTrace()
-            showToast("An error occurred: ${e.message}")
+            showToast("An error occurred due to Internet: ${e.message}")
         }
     }
 
-    fun isConnectedToInternet(context: Context): Boolean {
+    private fun isConnectedToInternet(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         // Check for network availability
