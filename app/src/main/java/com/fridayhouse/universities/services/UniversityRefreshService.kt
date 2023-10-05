@@ -3,6 +3,7 @@ package com.fridayhouse.universities.services
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -16,6 +17,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.fridayhouse.universities.AppData
 import com.fridayhouse.universities.R
+import com.fridayhouse.universities.activities.MainActivity
 import com.fridayhouse.universities.api.ApiInterface
 import com.fridayhouse.universities.repository.UniversityRepository
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +37,7 @@ class UniversityRefreshService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
+        // Initialize apiInterface and universityRepository
         apiInterface = AppData.apiInterface
         universityRepository = AppData.universityRepository
 
@@ -65,6 +68,16 @@ class UniversityRefreshService : Service() {
     }
 
     private fun createNotificationChannel(): Notification {
+        // Create an explicit intent for MainActivity
+        val mainActivityIntent = Intent(this, MainActivity::class.java)
+        mainActivityIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            mainActivityIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
@@ -79,9 +92,10 @@ class UniversityRefreshService : Service() {
             .setContentTitle("University Data Refresh")
             .setContentText("Refreshing data every 10 seconds")
             .setSmallIcon(R.drawable.ic_notification)
+            .setContentIntent(pendingIntent) // Set the PendingIntent to open MainActivity
+            .setAutoCancel(true) // Auto-cancel the notification when clicked
             .build()
     }
-
 
     private suspend fun refreshDataFromApi() {
         try {
